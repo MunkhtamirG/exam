@@ -16,7 +16,7 @@ export default function Home({ data }) {
 }
 
 export async function getStaticProps() {
-  const todoList = await axios.get("http://localhost:4000/v1/todo");
+  const todoList = await axios.get("https://ozy.ilearn.mn/v1/todo");
   return await {
     props: { data: todoList.data.data },
   };

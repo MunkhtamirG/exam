@@ -9,7 +9,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 function TodoList({ data }) {
   function addHandler(e) {
     axios
-      .post("http://localhost:4000/v1/todo/create", {
+      .post("https://ozy.ilearn.mn/v1/todo/create", {
         todo: e.target.todo.value,
       })
       .then((res) => {
