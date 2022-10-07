@@ -5,16 +5,24 @@ import axios from "axios";
 import { Box } from "@mui/system";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { useEffect } from "react";
+import { useState } from "react";
 
-function TodoList({ data }) {
-  function addHandler(e) {
-    axios
-      .post("https://ozy.ilearn.mn/v1/todo/create", {
-        todo: e.target.todo.value,
-      })
-      .then((res) => {
-        console.log(res);
-      });
+function TodoList() {
+  const [todoList, setTodoList] = useState();
+
+  useEffect(() => {
+    axios.get(`https://ozy.ilearn.mn/v1/todo`).then((res) => {
+      setTodoList(res.data.data);
+    });
+  }, []);
+
+  async function addHandler(e) {
+    e.preventDefault();
+    await axios.post("https://ozy.ilearn.mn/v1/todo/create", {
+      todo: e.target.todo.value,
+    });
+    await location.reload();
   }
   return (
     <Container>
@@ -32,10 +40,10 @@ function TodoList({ data }) {
           <div></div>
           <h1>My ToDo List</h1>
           <strong>
-            {data.length} / {data.length}
+            {todoList?.length} / {todoList?.length}
           </strong>
         </div>
-        {data.map((todo, i) => {
+        {todoList?.map((todo, i) => {
           return (
             <div key={i} className="todo-inline">
               <div>
@@ -68,7 +76,7 @@ function TodoList({ data }) {
             Add
           </Button>
         </Box>
-      </div>{" "}
+      </div>
     </Container>
   );
 }
